@@ -26,7 +26,6 @@ ffi.cdef [[
 
 popen_nonblock = (cmd) ->
   file = assert ffi.C.popen(cmd, "r"), "failed to open command"
-  print "file", file
   fd = ffi.C.fileno file
   ffi.C.fcntl fd, ffi.C.F_SETFL, ffi.new("int", ffi.C.O_NONBLOCK)
 
@@ -48,7 +47,7 @@ popen_nonblock = (cmd) ->
           return nil, "eagain"
         else
           return nil, "error"
-      
+
       string.char unpack_buffer buffer, res
 
     close: =>
