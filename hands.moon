@@ -1,18 +1,21 @@
 offset = 48
 
--- Left hand
--- thumb: 7
--- pointer: 5
--- middle: 4
--- ring: 2
--- pinky: 0
-
--- Right hand
--- thumb: 12
--- pointer: 14
--- middle: 16
--- ring: 17
--- pinky: 19
+fingers = {
+  left: {
+    thumb: 7
+    pointer: 5
+    middle: 4
+    ring: 2
+    pinky: 0
+  }
+  right: {
+    thumb: 12
+    pointer: 14
+    middle: 16
+    ring: 17
+    pinky: 19
+  }
+}
 
 
 chords = {
@@ -55,4 +58,4 @@ chords = {
   -- "5-19": { }
 }
 
-{ :chords, :offset }
+{ :chords, :fingers, :offset }

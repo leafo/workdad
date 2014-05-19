@@ -7,9 +7,9 @@ package.cpath ..= ";/home/leafo/.luarocks/lib/lua/5.1/?.so"
 uinput = require "uinput"
 
 import MidiInput from require "midi_input"
-import HList, Anchor from require "lovekit.ui"
+import HList, Anchor, Label from require "lovekit.ui"
 
-chords = require "chords"
+hands = require "hands"
 
 class Key extends Box
   x: 0
@@ -17,7 +17,9 @@ class Key extends Box
   w: 50
   h: 100
 
-  new: (@key_id) =>
+  new: (@hand, @finger) =>
+    @key_id = hands.fingers[@hand][@finger]
+    print @key_id
 
   draw: =>
     if @is_down
@@ -39,23 +41,25 @@ class ChordTyper
 
     @entities = DrawList!
 
+    @label = Label ""
+
     @left_hand = HList {
       x: 10
       y: 10
 
-      Key 0
-      Key 2
-      Key 4
-      Key 5
-      Key 7
+      Key "left", "pinky"
+      Key "left", "ring"
+      Key "left", "middle"
+      Key "left", "pointer"
+      Key "left", "thumb"
     }
 
     @right_hand = HList {
-      Key 12
-      Key 14
-      Key 16
-      Key 17
-      Key 19
+      Key "right", "thumb"
+      Key "right", "pointer"
+      Key "right", "middle"
+      Key "right", "ring"
+      Key "right", "pinky"
     }
 
     @entities\add @left_hand
@@ -88,10 +92,10 @@ class ChordTyper
     @entities\update dt
 
     for i, key in ipairs @left_hand.items
-      key.is_down = @is_down[key.key_id + chords.offset]
+      key.is_down = @is_down[key.key_id + hands.offset]
 
     for i, key in ipairs @right_hand.items
-      key.is_down = @is_down[key.key_id + chords.offset]
+      key.is_down = @is_down[key.key_id + hands.offset]
 
   draw: =>
     @entities\draw!
